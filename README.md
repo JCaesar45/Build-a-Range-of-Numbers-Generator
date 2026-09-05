@@ -79,9 +79,9 @@ GET  /api/healthz
 POST /api/leads
 GET  /api/leads/{id}
 ```
-```
 
-References
+
+## References
 
 Express. (n.d.). *Express - Node.js web application framework*. Retrieved September 2, 2026, from https://expressjs.com/
 
