@@ -1,0 +1,20 @@
+{
+  "name": "aurum-typescript-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@types/express": "*",
+    "@types/node": "*",
+    "tsx": "*",
+    "typescript": "*"
+  }
+}
