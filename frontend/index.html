@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="AURUM Conversion Engine: a luxury, high-conversion product interface with embedded CRO logic."
+    />
+    <meta name="theme-color" content="#07060b" />
+    <title>AURUM Conversion Engine</title>
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+    <style>
+      :root {
+        --bg: #07060b;
+        --panel: rgba(255, 255, 255, 0.055);
+        --border: rgba(255, 255, 255, 0.14);
+        --text: #f6f1e7;
+        --muted: rgba(246, 241, 231, 0.74);
+        --gold: #d8ae5d;
+        --gold-2: #f6e7b7;
+        --violet: #8b5df6;
+        --danger: #ff7d7d;
+        --success: #7cf3b0;
+        --radius: 24px;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        --container: min(1180px, 92vw);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family:
+          "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        background: var(--bg);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(
+            circle at 18% 18%,
+            rgba(216, 174, 93, 0.2),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 82% 12%,
+            rgba(139, 93, 246, 0.18),
+            transparent 28%
+          ),
+          linear-gradient(145deg, #07060b 0%, #0d0a16 48%, #07060b 100%);
+      }
+
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        z-index: 100;
+        padding: 0.8rem 1rem;
+        background: var(--gold);
+        color: #171103;
+        border-radius: 0 0 16px 0;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .skip:focus {
+        left: 0;
+      }
+
+      .container {
+        width: var(--container);
+        margin-inline: auto;
+      }
+
+      .section {
+        padding: 4.8rem 0;
+        position: relative;
+      }
+
+      .section-heading {
+        display: grid;
+        gap: 0.65rem;
+        max-width: 760px;
+        margin-bottom: 2.2rem;
+      }
+
+      .eyebrow {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: var(--gold);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+        font-weight: 850;
+      }
+
+      h1 {
+        font-size: clamp(2.9rem, 6vw, 5.6rem);
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 3vw, 3rem);
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      .lede {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.06rem;
+        max-width: 62ch;
+      }
+
+      .gold-text {
+        background: linear-gradient(90deg, var(--gold), var(--gold-2), #fff0c7);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .button {
+        appearance: none;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.96rem 1.45rem;
+        font-weight: 800;
+        font-size: 0.98rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background-color 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-2));
+        color: #191104;
+        box-shadow: 0 14px 38px rgba(216, 174, 93, 0.24);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .button-small {
+        padding: 0.72rem 1rem;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 3px;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 6, 11, 0.62);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.95rem 0;
+      }
+
+      .brand {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.3em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.2rem;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 650;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 6.5rem 0 3rem;
+        position: relative;
+      }
+
+      .orb {
+        position: absolute;
+        top: -8rem;
+        right: -10rem;
+        width: 38rem;
+        height: 38rem;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(72px);
+        opacity: 0.42;
+        background: conic-gradient(
+          from 120deg,
+          rgba(216, 174, 93, 0.85),
+          rgba(139, 93, 246, 0.55),
+          rgba(255, 255, 255, 0.1),
+          rgba(216, 174, 93, 0.85)
+        );
+        animation: drift 16s ease-in-out infinite alternate;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 1.2rem 0 0;
+        padding: 0;
+      }
+
+      .metrics div {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 20px;
+        padding: 1rem;
+      }
+
+      .metrics dt {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .metrics dd {
+        margin: 0.2rem 0 0;
+        font-size: 1.8rem;
+        font-weight: 900;
+      }
+
+      .card {
+        background: linear-gradient(
+          165deg,
+          rgba(255, 255, 255, 0.09),
+          rgba(255, 255, 255, 0.03)
+        );
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1.45rem;
+      }
+
+      .hero-panel {
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .score {
+        margin: 0;
+        font-size: 4rem;
+        line-height: 1;
+        font-weight: 950;
+        color: var(--gold-2);
+      }
+
+      .signal-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.45rem;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 1.2rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      .product-card,
+      .feature-card {
+        display: grid;
+        gap: 0.8rem;
+        align-content: start;
+      }
+
+      .product-tier {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.76rem;
+        font-weight: 900;
+        color: var(--violet);
+      }
+
+      .product-tagline {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .price {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+      }
+
+      .price span {
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 650;
+      }
+
+      .feature-list {
+        margin: 0;
+        padding-left: 1.05rem;
+        display: grid;
+        gap: 0.4rem;
+        color: var(--muted);
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+
+      .tree {
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 26px;
+        padding: 1.35rem;
+        overflow: auto;
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      .tree ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 1.3rem;
+      }
+
+      .tree > ul {
+        padding-left: 0.2rem;
+      }
+
+      .tree li {
+        position: relative;
+        padding: 0.28rem 0;
+      }
+
+      .tree li::before {
+        content: "";
+        position: absolute;
+        left: -1rem;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .tree-label {
+        color: var(--text);
+      }
+
+      .access-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .lead-form {
+        display: grid;
+        gap: 0.95rem;
+      }
+
+      label {
+        font-weight: 750;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.07);
+        color: var(--text);
+        border-radius: 16px;
+        padding: 0.95rem 1rem;
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 132px;
+        resize: vertical;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(246, 241, 231, 0.42);
+      }
+
+      input:invalid:not(:placeholder-shown),
+      textarea:invalid:not(:placeholder-shown) {
+        border-color: var(--danger);
+      }
+
+      .status {
+        min-height: 1.5em;
+        margin: 0;
+        font-weight: 800;
+        color: var(--success);
+      }
+
+      .status[data-tone="error"] {
+        color: var(--danger);
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0 3rem;
+      }
+
+      footer .container {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        color: var(--muted);
+      }
+
+      [data-reveal] {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 700ms ease,
+          transform 700ms ease;
+      }
+
+      .in-view {
+        opacity: 1;
+        transform: none;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-6%, -4%, 0) scale(1);
+        }
+        to {
+          transform: translate3d(8%, 7%, 0) scale(1.08);
+        }
+      }
+
+      @media (max-width: 940px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero-grid,
+        .access-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .orb {
+          right: -14rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="nav container" aria-label="Primary">
+        <a class="brand" href="#top">AURUM</a>
+        <div class="nav-links" role="menu">
+          <a href="#products" role="menuitem">Products</a>
+          <a href="#engine" role="menuitem">Engine</a>
+          <a href="#structure" role="menuitem">Structure</a>
+        </div>
+        <a
+          class="button button-primary button-small"
+          href="#access"
+          data-conversion
+        >
+          Request Access
+        </a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="orb" aria-hidden="true"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Luxury Conversion Infrastructure</p>
+            <h1>
+              Turn attention into
+              <span class="gold-text">signed revenue</span>
+              .
+            </h1>
+            <p class="lede">
+              AURUM is a premium product interface with embedded conversion
+              logic, live signal scoring, and backend-ready lead capture.
+            </p>
+            <div class="hero-actions">
+              <a
+                id="hero-cta"
+                class="button button-primary"
+                href="#access"
+                data-conversion
+              >
+                Request Private Demo
+              </a>
+              <a
+                class="button button-secondary"
+                href="#products"
+                data-conversion
+              >
+                View Product Suite
+              </a>
+            </div>
+            <dl class="metrics" aria-label="Business metrics">
+              <div>
+                <dt>Conversion lift target</dt>
+                <dd data-counter data-value="37" data-suffix="%">0%</dd>
+              </div>
+              <div>
+                <dt>Median API latency</dt>
+                <dd data-counter data-value="42" data-suffix="ms">0ms</dd>
+              </div>
+              <div>
+                <dt>Deployment readiness</dt>
+                <dd data-counter data-value="100" data-suffix="%">0%</dd>
+              </div>
+            </dl>
+          </div>
+
+          <aside
+            class="hero-panel card"
+            data-reveal
+            aria-label="Live conversion score"
+          >
+            <h2>Live Conversion Score</h2>
+            <p class="score" id="conversion-score">0</p>
+            <ul class="signal-list" id="signal-list"></ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="products" class="section">
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Product Suite</p>
+            <h2>Commercial architecture</h2>
+            <p class="lede">
+              Ranked offers, clear pricing, and direct selection paths into the
+              lead form.
+            </p>
+          </div>
+          <div class="grid" id="product-grid"></div>
+        </div>
+      </section>
+
+      <section id="engine" class="section">
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Conversion Engine</p>
+            <h2>Algorithmic attention control</h2>
+          </div>
+          <div class="grid feature-grid" id="feature-grid"></div>
+        </div>
+      </section>
+
+      <section id="structure" class="section">
+        <div class="container">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Product Structure</p>
+            <h2>Repository map</h2>
+          </div>
+          <div
+            class="tree"
+            id="structure-tree"
+            aria-label="Project structure"
+          ></div>
+        </div>
+      </section>
+
+      <section id="access" class="section access">
+        <div class="container access-grid">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Private Access</p>
+            <h2>Secure the next deployment window</h2>
+            <p class="lede">
+              Submit a lead to route the payload to a running backend or
+              preserve it locally when offline.
+            </p>
+          </div>
+
+          <form class="lead-form card" id="lead-form" data-reveal>
+            <label for="name">Full name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              minlength="2"
+              maxlength="140"
+              placeholder=" "
+            />
+
+            <label for="email">Work email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="320"
+              placeholder=" "
+            />
+
+            <label for="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              maxlength="140"
+              placeholder=" "
+            />
+
+            <label for="product">Product</label>
+            <select id="product" name="product">
+              <option value="aurum-core">Aurum Core</option>
+              <option value="aurum-orchestrator">Aurum Orchestrator</option>
+              <option value="aurum-sovereign">Aurum Sovereign</option>
+            </select>
+
+            <label for="intent">Objective</label>
+            <textarea
+              id="intent"
+              name="intent"
+              rows="4"
+              maxlength="2000"
+              placeholder=" "
+            ></textarea>
+
+            <button class="button button-primary" type="submit" data-conversion>
+              Secure Access
+            </button>
+            <p
+              class="status"
+              id="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <span>AURUM Conversion Engine</span>
+        <span>
+          Frontend, Python, TypeScript, and Java implementation surface
+        </span>
+      </div>
+    </footer>
+
+    <script type="module">
+      const products = [
+        {
+          id: "aurum-core",
+          name: "Aurum Core",
+          tier: "Foundation",
+          price: 2900,
+          cadence: "deployment",
+          priority: 1,
+          tagline:
+            "A conversion-first luxury landing system with embedded CRO logic.",
+          features: [
+            "Single-file frontend",
+            "Accessible UI states",
+            "Offline lead capture",
+            "Product ranking"
+          ]
+        },
+        {
+          id: "aurum-orchestrator",
+          name: "Aurum Orchestrator",
+          tier: "Growth",
+          price: 7800,
+          cadence: "deployment",
+          priority: 2,
+          tagline:
+            "Polyglot intake fabric for Python, TypeScript, and Java services.",
+          features: [
+            "FastAPI lead service",
+            "Typed Express gateway",
+            "Spring Boot ledger",
+            "CORS-enabled APIs"
+          ]
+        },
+        {
+          id: "aurum-sovereign",
+          name: "Aurum Sovereign",
+          tier: "Enterprise",
+          price: 24000,
+          cadence: "program",
+          priority: 3,
+          tagline:
+            "A private implementation model with security review and conversion analytics.",
+          features: [
+            "Deployment runbook",
+            "Health endpoints",
+            "Traceable payloads",
+            "Executive dashboard hooks"
+          ]
+        }
+      ];
+
+      const features = [
+        {
+          title: "Signal Weighting",
+          body: "Scroll depth, CTA selection, product selection, and form intent are weighted into a single conversion score."
+        },
+        {
+          title: "Graceful Degradation",
+          body: "If the API is unreachable, submissions are stored locally with a traceable reference."
+        },
+        {
+          title: "Accessible Luxury",
+          body: "Focus states, reduced-motion handling, semantic landmarks, and live form status are built in."
+        },
+        {
+          title: "Product Routing",
+          body: "Product selection is passed from card actions to the lead form and backend payload."
+        }
+      ];
+
+      const productStructure = {
+        name: "aurum-conversion-platform",
+        type: "directory",
+        children: [
+          {
+            name: "index.html",
+            type: "file",
+            desc: "Combined HTML, CSS, and JavaScript"
+          },
+          {
+            name: "backend",
+            type: "directory",
+            children: [
+              {
+                name: "python",
+                type: "directory",
+                children: [
+                  {
+                    name: "main.py",
+                    type: "file",
+                    desc: "FastAPI lead service"
+                  },
+                  {
+                    name: "requirements.txt",
+                    type: "file",
+                    desc: "Python dependencies"
+                  }
+                ]
+              },
+              {
+                name: "typescript",
+                type: "directory",
+                children: [
+                  {
+                    name: "server.ts",
+                    type: "file",
+                    desc: "Typed Express gateway"
+                  },
+                  {
+                    name: "package.json",
+                    type: "file",
+                    desc: "Node package manifest"
+                  },
+                  {
+                    name: "tsconfig.json",
+                    type: "file",
+                    desc: "TypeScript compiler configuration"
+                  }
+                ]
+              },
+              {
+                name: "java",
+                type: "directory",
+                children: [
+                  {
+                    name: "pom.xml",
+                    type: "file",
+                    desc: "Maven build configuration"
+                  },
+                  {
+                    name: "src/main/java/com/aurum/ledger/LedgerApplication.java",
+                    type: "file",
+                    desc: "Spring Boot ledger service"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            name: "README.md",
+            type: "file",
+            desc: "Deployment and product narrative"
+          }
+        ]
+      };
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) =>
+        Array.from(root.querySelectorAll(selector));
+
+      const entities = new Map([
+        ["&", "&amp;"],
+        ["<", "&lt;"],
+        [">", "&gt;"],
+        ['"', "&quot;"],
+        ["'", "&#39;"]
+      ]);
+
+      const escapeHTML = (value) =>
+        String(value).replace(/[&<>"']/g, (ch) => entities.get(ch) ?? ch);
+
+      const uid = () =>
+        globalThis.crypto?.randomUUID?.() ??
+        `local_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+
+      const currency = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      });
+
+      const apiBase =
+        new URLSearchParams(window.location.search).get("api") ?? "";
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      const safeStorage = {
+        get(key) {
+          try {
+            return window.localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        },
+        set(key, value) {
+          try {
+            window.localStorage.setItem(key, value);
+            return true;
+          } catch {
+            return false;
+          }
+        }
+      };
+
+      function renderProducts() {
+        const grid = $("#product-grid");
+        if (!grid) return;
+
+        grid.textContent = "";
+        const ranked = [...products].sort((a, b) => a.priority - b.priority);
+
+        for (const product of ranked) {
+          const card = document.createElement("article");
+          card.className = "card product-card";
+          card.dataset.reveal = "";
+
+          const featureList = product.features
+            .map((feature) => `<li>${escapeHTML(feature)}</li>`)
+            .join("");
+
+          card.innerHTML = `
+      <p class="product-tier">${escapeHTML(product.tier)}</p>
+      <h3>${escapeHTML(product.name)}</h3>
+      <p class="product-tagline">${escapeHTML(product.tagline)}</p>
+      <p class="price">${currency.format(product.price)}<span> / ${escapeHTML(product.cadence)}</span></p>
+      <ul class="feature-list">${featureList}</ul>
+      <a class="button button-secondary" href="#access" data-conversion data-product="${escapeHTML(product.id)}">
+        Select ${escapeHTML(product.name)}
+      </a>
+    `;
+
+          grid.appendChild(card);
+        }
+      }
+
+      function renderFeatures() {
+        const grid = $("#feature-grid");
+        if (!grid) return;
+
+        grid.textContent = "";
+
+        for (const feature of features) {
+          const card = document.createElement("article");
+          card.className = "card feature-card";
+          card.dataset.reveal = "";
+
+          card.innerHTML = `
+      <h3>${escapeHTML(feature.title)}</h3>
+      <p>${escapeHTML(feature.body)}</p>
+    `;
+
+          grid.appendChild(card);
+        }
+      }
+
+      function renderTree(node) {
+        const li = document.createElement("li");
+        const label = document.createElement("span");
+        label.className = "tree-label";
+        label.textContent = node.name;
+
+        if (node.desc) {
+          label.title = node.desc;
+        }
+
+        li.appendChild(label);
+
+        if (node.children?.length) {
+          const ul = document.createElement("ul");
+          for (const child of node.children) {
+            ul.appendChild(renderTree(child));
+          }
+          li.appendChild(ul);
+        }
+
+        return li;
+      }
+
+      function renderStructure() {
+        const root = $("#structure-tree");
+        if (!root) return;
+
+        root.textContent = "";
+        const ul = document.createElement("ul");
+        ul.appendChild(renderTree(productStructure));
+        root.appendChild(ul);
+      }
+
+      const supportsIntersectionObserver = "IntersectionObserver" in window;
+
+      let revealObserver = null;
+      if (supportsIntersectionObserver) {
+        revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.16 }
+        );
+      }
+
+      function observeReveals() {
+        if (!supportsIntersectionObserver) {
+          $$("[data-reveal]").forEach((element) =>
+            element.classList.add("in-view")
+          );
+          return;
+        }
+
+        $$("[data-reveal]:not(.in-view)").forEach((element) =>
+          revealObserver.observe(element)
+        );
+      }
+
+      function animateCounter(element) {
+        const target = Number(element.dataset.value ?? 0);
+        const suffix = element.dataset.suffix ?? "";
+
+        if (prefersReducedMotion) {
+          element.textContent = `${target}${suffix}`;
+          return;
+        }
+
+        const duration = 950;
+        const start = performance.now();
+
+        const frame = (now) => {
+          const progress = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          element.textContent = `${Math.round(target * eased)}${suffix}`;
+
+          if (progress < 1) {
+            requestAnimationFrame(frame);
+          }
+        };
+
+        requestAnimationFrame(frame);
+      }
+
+      const counterObserver = supportsIntersectionObserver
+        ? new IntersectionObserver(
+            (entries, observer) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  animateCounter(entry.target);
+                  observer.unobserve(entry.target);
+                }
+              }
+            },
+            { threshold: 0.6 }
+          )
+        : null;
+
+      function observeCounters() {
+        $$("[data-counter]").forEach((element) => {
+          if (counterObserver) {
+            counterObserver.observe(element);
+          } else {
+            animateCounter(element);
+          }
+        });
+      }
+
+      const croState = {
+        score: 0,
+        signals: new Map()
+      };
+
+      const heroCta = $("#hero-cta");
+      const conversionScore = $("#conversion-score");
+      const signalList = $("#signal-list");
+
+      function optimize() {
+        const score = Math.min(100, Math.round(croState.score));
+
+        if (conversionScore) {
+          conversionScore.textContent = String(score);
+        }
+
+        if (signalList) {
+          signalList.textContent = "";
+
+          for (const [name, weight] of croState.signals) {
+            const li = document.createElement("li");
+            li.textContent = `${name}: ${Math.round(weight)}`;
+            signalList.appendChild(li);
+          }
+        }
+
+        if (heroCta) {
+          if (score >= 60) {
+            heroCta.textContent = "Secure Priority Access";
+          } else if (score >= 30) {
+            heroCta.textContent = "Request Private Demo";
+          }
+        }
+      }
+
+      function addSignal(name, weight) {
+        const current = croState.signals.get(name) ?? 0;
+
+        if (weight <= current) {
+          return;
+        }
+
+        croState.signals.set(name, weight);
+        croState.score = Array.from(croState.signals.values()).reduce(
+          (sum, value) => sum + value,
+          0
+        );
+        optimize();
+      }
+
+      let scrollTicking = false;
+
+      function reportScrollDepth() {
+        if (scrollTicking) return;
+
+        scrollTicking = true;
+
+        requestAnimationFrame(() => {
+          const scrollable =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const depth =
+            scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0;
+          addSignal("scroll-depth", Math.round(depth * 30));
+          scrollTicking = false;
+        });
+      }
+
+      window.addEventListener("scroll", reportScrollDepth, { passive: true });
+
+      document.addEventListener(
+        "click",
+        (event) => {
+          const target = event.target instanceof Element ? event.target : null;
+          if (!target) return;
+
+          const conversionTrigger = target.closest("[data-conversion]");
+          if (conversionTrigger) {
+            addSignal("cta-interaction", 18);
+          }
+
+          const productTrigger = target.closest("[data-product]");
+          if (productTrigger) {
+            const productSelect = $("#product");
+            const productId = productTrigger.dataset.product;
+
+            if (productSelect && productId) {
+              productSelect.value = productId;
+              addSignal("product-selection", 22);
+            }
+          }
+        },
+        { passive: true }
+      );
+
+      const leadForm = $("#lead-form");
+      const formStatus = $("#form-status");
+
+      function setStatus(message, tone = "success") {
+        if (!formStatus) return;
+        formStatus.textContent = message;
+        formStatus.dataset.tone = tone;
+      }
+
+      if (leadForm) {
+        leadForm.addEventListener("input", (event) => {
+          const target = event.target;
+
+          if (
+            target instanceof HTMLInputElement &&
+            target.name === "email" &&
+            target.value.includes("@")
+          ) {
+            addSignal("email-intent", 12);
+          }
+        });
+
+        leadForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          if (!leadForm.checkValidity()) {
+            setStatus(
+              "Complete the required fields with a valid email.",
+              "error"
+            );
+            leadForm.reportValidity();
+            return;
+          }
+
+          addSignal("submit-intent", 35);
+
+          const payload = Object.fromEntries(new FormData(leadForm).entries());
+          payload.ts = new Date().toISOString();
+
+          setStatus("Encrypting request...");
+
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 3500);
+
+          try {
+            const response = await fetch(`${apiBase}/api/leads`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload),
+              signal: controller.signal
+            });
+
+            clearTimeout(timer);
+
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}`);
+            }
+
+            const record = await response.json();
+            setStatus(`Confirmed. Reference ${record.id ?? uid()}.`);
+            leadForm.reset();
+          } catch {
+            clearTimeout(timer);
+
+            const localId = uid();
+            const existing = safeStorage.get("aurum.leads");
+
+            let leads = [];
+            try {
+              leads = existing ? JSON.parse(existing) : [];
+            } catch {
+              leads = [];
+            }
+
+            if (Array.isArray(leads)) {
+              leads.push({ ...payload, id: localId });
+              safeStorage.set("aurum.leads", JSON.stringify(leads));
+            }
+
+            setStatus(`Offline capture secured. Reference ${localId}.`);
+            leadForm.reset();
+          }
+        });
+      }
+
+      renderProducts();
+      renderFeatures();
+      renderStructure();
+      observeReveals();
+      observeCounters();
+      reportScrollDepth();
+      optimize();
+    </script>
+  </body>
+</html>
